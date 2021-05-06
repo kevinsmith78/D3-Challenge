@@ -18,63 +18,6 @@ var svg = d3
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-//Inital Params
-var chosenXAxis = "obesity";
-
-//function used for updating x-scale var upon click on axis label
-function xScale(BMI, chosenXAxis) {
-    // create scales
-    var xLinearScale = d3.scaleLinear()
-        .domain([d3.min(BMI, d => d[chosenXAxis]) * 0.8,
-            d3.max(BMI, d => d[chosenXAxis]) * 1.2
-        ])
-        .range([0, width]);
-
-    return xLinearScale;
-
-}
-//function used for updating xAxis var upon click on axis label
-function renderAxes(newXScale, xAxis) {
-    var bottomAxis = d3.axisBottom(newXScale);
-
-    xAxis.transition()
-        .duration(1000)
-        .call(bottomAxis);
-
-    return xAxis;
-}
-
-//function used for updating circles group with new tooltip
-function updateToolTip(chosenXAxis, circlesGroup) {
-
-    var label;
-
-    if (chosenXAxis === "") {
-        label = "Hair Length:";
-    } else {
-        label = "# of Albums:";
-    }
-
-    var toolTip = d3.tip()
-        .attr("class", "tooltip")
-        .offset([80, -60])
-        .html(function(d) {
-            return (`${d.rockband}<br>${label} ${d[chosenXAxis]}`);
-        });
-
-    circlesGroup.call(toolTip);
-
-    circlesGroup.on("mouseover", function(data) {
-            toolTip.show(data);
-        })
-        // onmouseout event
-        .on("mouseout", function(data, index) {
-            toolTip.hide(data);
-        });
-
-    return circlesGroup;
-
-
 //Import Data from an external CSV file 
 d3.csv("assets/data/data.csv").then(function(Data) {
     //console.log(Data);
@@ -82,9 +25,46 @@ d3.csv("assets/data/data.csv").then(function(Data) {
 
     //Step 1. Parse Data/Cast as members (age/obesity)
     weightData.forEach(function(Data) {
-        Data.life = + Data.age;
-        Data.size = + Data.obesity;
+        Data.age = +Data.age;
+        Data.obesity = +Data.obesity;
     });
 
 //Step.2 Create Scale Functions
+    var xLinearScale = d3.scaleLinear()
+        .domain([20, d3.max(Data, d => d.age)])
+        .range([0, width]);
 
+var yLinearScale = d3.scaleLinear()
+      .domain([0, d3.max(Data, d => d.obesity)])
+      .range([height, 0]);
+
+// Step 3: Create axis functions
+
+    var bottomAxis = d3.axisBottom(xLinearScale);
+    var leftAxis = d3.axisLeft(yLinearScale);
+
+// Step 4: Append Axes to the chart
+    chartGroup.append("g")
+      .attr("transform", `translate(0, ${height})`)
+      .call(bottomAxis);
+      
+    chartGroup.append("g")
+      .call(leftAxis);
+
+// Step 5: Create Circles
+    var circlesGroup = chartGroup.selectAll("circle")
+        .data(hairData)
+        .enter()
+        .append("circle")
+        .attr("cx", d => xLinearScale(d.age))
+        .attr("cy", d => yLinearScale(d.obesity))
+        .attr("r", "15")
+        .attr("fill", "pink")
+        .attr("opacity", ".5");
+
+// Step 6: Initialize tool tip   
+    var toolTip = d3.tip()
+      .attr("class", "tooltip")
+      .offset([80, -60])
+      .html(function(d) {
+        return (`${d.rockband}<br>Hair length: ${d.age}<br>Hits: ${d.obesity}`);
