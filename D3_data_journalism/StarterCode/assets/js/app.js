@@ -53,7 +53,7 @@ var yLinearScale = d3.scaleLinear()
 
 // Step 5: Create Circles
     var circlesGroup = chartGroup.selectAll("circle")
-        .data(hairData)
+        .data(Data)
         .enter()
         .append("circle")
         .attr("cx", d => xLinearScale(d.age))
@@ -67,4 +67,20 @@ var yLinearScale = d3.scaleLinear()
       .attr("class", "tooltip")
       .offset([80, -60])
       .html(function(d) {
-        return (`${d.rockband}<br>Hair length: ${d.age}<br>Hits: ${d.obesity}`);
+        return (`${d.abbr}<br>Hair length: ${d.age}<br>Hits: ${d.obesity}`);
+
+// Step 7: Create tooltip in the chart
+    chartGroup.call(toolTip);
+
+// Step 8: Create event listeners to display and hide the tooltip
+    circlesGroup.on("click", function(data) {
+      toolTip.show(data, this);
+    });
+
+    // onmouseout event
+    .on("mouseout", function(data, index) {
+      toolTip.hide(data);
+    });
+
+
+
