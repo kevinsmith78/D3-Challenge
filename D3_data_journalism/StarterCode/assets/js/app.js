@@ -13,7 +13,7 @@ var svg = d3.select(".chart")
 .append("svg")
 .attr("width", svgWidth)
 .attr("height", svgHeight);
-
+//Append an SVG group
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -21,10 +21,12 @@ var chartGroup = svg.append("g")
 d3.csv("assets/data/data.csv").then(function(Data) {
     //console.log(Data);
     //console.log([Data]);
-//Step 1. Parse Data/Cast as members
+
+    //Step 1. Parse Data/Cast as members (age/obesity)
     weightData.forEach(function(Data) {
-        Data.life = +Data.age;
+        Data.life = + Data.age;
         Data.size = + Data.obesity;
     });
 
 //Step.2 Create Scale Functions
+
