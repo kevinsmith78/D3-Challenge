@@ -24,9 +24,9 @@ d3.csv("assets/data/data.csv").then(function(weightData) {
   //console.log([Data]);
 
   //Step 1. Parse Data/Cast as members (age/obesity)
-  weightData.forEach(function(Data) {
-    Data.age = +Data.age;
-    Data.obesity = +Data.obesity;
+  weightData.forEach(function(data) {
+    data.age = +data.age;
+    data.obesity = +data.obesity;
   });
 
   //Step.2 Create Scale Functions
@@ -74,13 +74,13 @@ d3.csv("assets/data/data.csv").then(function(weightData) {
   chartGroup.call(toolTip);
 
   // Step 8: Create event listeners to display and hide the tooltip
-  circlesGroup.on("click", function (Data) {
-    toolTip.show(Data, this);
+  circlesGroup.on("click", function (data) {
+    toolTip.show(data, this);
   })
 
     // onmouseout event
-    .on("mouseout", function (Data, index) {
-      toolTip.hide(Data);
+    .on("mouseout", function (data, index) {
+      toolTip.hide(data);
     });
 
   // Create axes labels
