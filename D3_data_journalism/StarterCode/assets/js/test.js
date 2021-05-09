@@ -169,7 +169,7 @@ d3.csv("assets/data/data.csv").then(function (trendData) {
         .append("circle")
         .attr("cx", d => xLinearScale(d.poverty))
         .attr("cy", d => yLinearScale(d.healthcare))
-        .attr("r", "15")
+        .attr("r", "8")
         .attr("class", "stateText")
         .attr("class", "stateCircle")
 
