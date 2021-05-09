@@ -67,7 +67,12 @@ d3.csv("assets/data/data.csv").then(function(weightData) {
     .enter()
     .append("text")
     .text(d=>d.abbr)
-    
+    .attr("cx", d => xLinearScale(d.age))
+    .attr("cy", d => yLinearScale(d.obesity))
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "central")
+    .attr("font_family", "sans-serif")
+    .attr("")
 
 
   
