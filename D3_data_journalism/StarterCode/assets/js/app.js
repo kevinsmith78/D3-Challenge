@@ -52,30 +52,29 @@ d3.csv("assets/data/data.csv").then(function(weightData) {
     .call(leftAxis);
 
   // Step 5: Create Circles
-  circlesGroup = chartGroup.selectAll("circle")
+  var circlesGroup = chartGroup.selectAll("circle")
     .data(weightData)
     .enter()
     .append("circle")
     .attr("cx", d => xLinearScale(d.age))
     .attr("cy", d => yLinearScale(d.obesity))
-    .attr("r", "10")
-    .attr("fill", "blue")
-    .attr("opacity", ".5");
+    .attr("r", "15")
+    .attr("class", "stateText")
+    .attr("class", "stateCircle")
   
-    circlesGroup=append("g").selectAll("text")
+  var textgroup = chartGroup.selectAll("text.abbrtext")
     .data(weightData)
     .enter()
     .append("text")
-    .text(d=>d.abbr)
-    .attr("cx", d => xLinearScale(d.age))
-    .attr("cy", d => yLinearScale(d.obesity))
+    .attr("class", "abbrtext")
+    .attr("cx", d => xLinearScale(d["age"]))
+    .attr("cy", d => yLinearScale(d["obesity"]))
     .attr("text-anchor", "middle")
-    .attr("alignment-baseline", "central")
-    .attr("font_family", "sans-serif")
-    .attr("")
+    .attr("font-size", "8px")
+    .attr("font-width", "bold")
+    .attr("fill", "green")
+    .text(d => d.abbr)
 
-
-  
 
   // Step 6: Initialize tool tip   
   var toolTip = d3.tip()
