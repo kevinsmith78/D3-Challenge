@@ -35,7 +35,7 @@ d3.csv("assets/data/data.csv").then(function(weightData) {
     .range([0, width]);
 
   var yLinearScale = d3.scaleLinear()
-    .domain([0, d3.max(weightData, d => d.obesity)])
+    .domain([18, d3.max(weightData, d => d.obesity)])
     .range([height, 0]);
 
   // Step 3: Create axis functions
@@ -58,9 +58,11 @@ d3.csv("assets/data/data.csv").then(function(weightData) {
     .append("circle")
     .attr("cx", d => xLinearScale(d.age))
     .attr("cy", d => yLinearScale(d.obesity))
-    .attr("r", "15")
-    .attr("class", "stateText")
-    .attr("class", "stateCircle")
+    .attr("r", "10")
+    .attr("fill", "blue")
+    .attr("opacity", ".9")
+    // .attr("class", "stateText")
+    // .attr("class", "stateCircle")
   
   var textgroup = chartGroup.selectAll("text.abbrtext")
     .data(weightData)
@@ -72,7 +74,7 @@ d3.csv("assets/data/data.csv").then(function(weightData) {
     .attr("text-anchor", "middle")
     .attr("font-size", "8px")
     .attr("font-width", "bold")
-    .attr("fill", "black")
+    .attr("fill", "grey")
     .text(d => d.abbr)
 
 
@@ -104,7 +106,7 @@ d3.csv("assets/data/data.csv").then(function(weightData) {
     .attr("x", 0 - (height / 2))
     .attr("dy", "1em")
     .attr("class", "axisText")
-    .text("Number of Billboard 100 Hits");
+    .text("Weight");
 
   chartGroup.append("text")
     .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
