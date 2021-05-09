@@ -31,7 +31,7 @@ d3.csv("assets/data/data.csv").then(function(weightData) {
 
   //Step.2 Create Scale Functions
   var xLinearScale = d3.scaleLinear()
-    .domain([10, d3.max(weightData, d => d.age)])
+    .domain([30, d3.max(weightData, d => d.age)])
     .range([0, width]);
 
   var yLinearScale = d3.scaleLinear()
@@ -67,12 +67,12 @@ d3.csv("assets/data/data.csv").then(function(weightData) {
     .enter()
     .append("text")
     .attr("class", "abbrtext")
-    .attr("cx", d => xLinearScale(d["age"]))
-    .attr("cy", d => yLinearScale(d["obesity"]))
+    .attr("x", d => xLinearScale(d["age"]))
+    .attr("y", d => yLinearScale(d["obesity"]))
     .attr("text-anchor", "middle")
     .attr("font-size", "8px")
     .attr("font-width", "bold")
-    .attr("fill", "green")
+    .attr("fill", "black")
     .text(d => d.abbr)
 
 
@@ -109,7 +109,7 @@ d3.csv("assets/data/data.csv").then(function(weightData) {
   chartGroup.append("text")
     .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
     .attr("class", "axisText")
-    .text("Hair Metal Band Hair Length (inches)");
+    .text("Age");
 }).catch(function (error) {
   //console.log(error);
 });
