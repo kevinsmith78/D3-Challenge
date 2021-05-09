@@ -52,22 +52,32 @@ d3.csv("assets/data/data.csv").then(function(weightData) {
     .call(leftAxis);
 
   // Step 5: Create Circles
-  var circlesGroup = chartGroup.selectAll("circle")
+  circlesGroup = chartGroup.selectAll("circle")
     .data(weightData)
     .enter()
     .append("circle")
     .attr("cx", d => xLinearScale(d.age))
     .attr("cy", d => yLinearScale(d.obesity))
-    .attr("r", "15")
+    .attr("r", "10")
     .attr("fill", "blue")
     .attr("opacity", ".5");
+  
+    circlesGroup=append("g").selectAll("text")
+    .data(weightData)
+    .enter()
+    .append("text")
+    .text(d=>d.abbr)
+    
+
+
+  
 
   // Step 6: Initialize tool tip   
   var toolTip = d3.tip()
     .attr("class", "tooltip")
     .offset([80, -60])
     .html(function (d) {
-      return (`${d.state}<br>Age %: ${d.age}<br>Weight %: ${d.obesity}`);
+      return (`${d.state}<br>Age: ${d.age}<br>Weight: ${d.obesity}`);
     });
 
   // Step 7: Create tooltip in the chart
